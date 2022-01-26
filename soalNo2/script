@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="pool">
+		 
+				
+					<button class="btn" onClick="selectPool(1)">Source 1</button>
+					<button class="btn" onClick="selectPool(2)">Source 2</button>
+					<button class="btn" onClick="selectPool(3)">Source 3</button>
+					<button class="btn" onClick="selectPool(4)">Source 4</button>
+					<button class="btn" onClick="selectPool(5)">Source 5</button>
+					<button class="btn" onClick="selectPool(6)">Source 6</button>
+					<button class="btn" onClick="selectPool(7)">Source 7</button>
+					<button class="btn" onClick="selectPool(8)">Source 8</button>
+					<button class="btn" onClick="selectPool(9)">Source 9</button>
+					<button class="btn" onClick="selectPool(10)">Source 10</button>
+			
+		</div>
+		<table>
+			<tr>
+				<td colspan="2">
+					Turn, <span id="turn">Leader A</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Leader A</td>
+				<td><div id="leadA"></div></td>
+			</tr>
+			<tr>
+				<td>Leader B</td>
+				<td><div id="leadB"></div></td>
+			</tr>
+		</table>
+		<span id="availblePool" style="background-color: yellow;"></span>
+		<span id="errorMsg" style="background-color: red;color: white;"></span>
+	</body>
+	<script type="text/javascript">
+		let sourcePool = [1,2,3,4,5,6,7,8,9,10];
+		let leadA = [];
+		let leadB = [];
+
+		function selectPool(num) {
+			$('#errorMsg').html('');
+			$('#availblePool').html('');
+			let turnLabel = $('#turn');
+
+			if (sourcePool.includes(num)) {
+				if (leadA.includes(num)) {
+					$('#errorMsg').html("Already picked by leader A");
+				} else if (leadB.includes(num)) {
+					$('#errorMsg').html("Already picked by leader B");
+				} else {
+					let indexPool = sourcePool.indexOf(num);
+					sourcePool.splice(indexPool,1);
+
+					if (turnLabel.text() == 'Leader A') {
+						leadA.push(num);
+						leadA.sort();
+						$('#leadA').html(leadA.join(", "));
+					} else { 
+						leadB.push(num);
+						leadB.sort();
+						$('#leadB').html(leadB.join(", "));
+					}
+
+					if (turnLabel.text() == 'Leader A') {
+						turnLabel.html('Leader B');
+					} else turnLabel.html('Leader A');
+				}		
+			} else {
+				if (sourcePool.length > 0) {
+					$('#availblePool').html(sourcePool.join(", "));
+				} else {
+					$('#errorMsg').html("Invalid source Pool");
+				}
+			}
+		}
+
+		function processPool(num) {
+		}
+	</script>
+</html>
